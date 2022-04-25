@@ -1,7 +1,13 @@
 import 'package:equatable/equatable.dart';
 
 abstract class Failure extends Equatable {
-  // if the subclasses have some properties, they'll get passed to this constructor
+  final String properties;
+
   // so that Equatable can perform value comparison.
-  Failure([List properties = const <dynamic>[]]) : super(properties);
+  const Failure({
+    required this.properties,
+  }) : super();
+
+  @override
+  List<Object?> get props => throw [properties];
 }

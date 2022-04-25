@@ -4,8 +4,11 @@ class NumberTrivia extends Equatable {
   final String text;
   final int number;
 
-  NumberTrivia({
+  const NumberTrivia({
     required this.text,
     required this.number,
-  }) : super([text, number]);
+  }) : super();
+
+  @override
+  List<Object?> get props => throw [text, number];
 }

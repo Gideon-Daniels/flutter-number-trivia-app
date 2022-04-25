@@ -17,21 +17,24 @@ void main() {
     usecase = GetConcreteNumberTrivia(mockNumberTriviaRepository);
   });
 
-  final tNumber = 1;
-  final tNumberTrivia = NumberTrivia(text: 'test', number: 1);
+  const int tNumber = 1;
+  const tNumberTrivia = NumberTrivia(text: 'test', number: 1);
+
+  mockNumberTriviaRepository = MockNumberTriviaRepository();
+  usecase = GetConcreteNumberTrivia(mockNumberTriviaRepository);
 
   test('should get trivia for the number from the repository', () async {
     // "On the fly" implementation of the Repository using the Mockito package.
     // When getConcreteNumberTrivia is called with any argument, always answer with
     // the Right "side" of Either containing a test NumberTrivia object.
-    when(mockNumberTriviaRepository.getConcreteNumberTrivia(any))
-        .thenAnswer((_) async => Right(tNumberTrivia));
+    when(mockNumberTriviaRepository.getConcreteNumberTrivia(tNumber))
+        .thenAnswer((_) async => const Right(tNumberTrivia));
     // The "act" phase of the test . Call the  not-yet-existent method.
-    final result = await usecase.execute(number: tNumber);
-    expect(result, Right(tNumberTrivia));
+    final result = await usecase(number: tNumber);
+    expect(result, const Right(tNumberTrivia));
     // Verify that the method has been called on the Repository
     verify(mockNumberTriviaRepository.getConcreteNumberTrivia(tNumber));
     // Only the above method should be called and nothing more.
-    verifyNoMoreInteractions(mockNumberTriviaRepository)
+    verifyNoMoreInteractions(mockNumberTriviaRepository);
   });
 }
